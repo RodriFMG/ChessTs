@@ -1,0 +1,74 @@
+
+.tablero {
+
+  border: 1px bisque solid;
+  border-radius: 2%;
+  min-width: 35vw;
+  min-height: 35vw;
+
+  display : grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+
+  place-items: center;
+
+}
+
+.white-square{
+
+  width: 100%;
+  height: 100%;
+  background-color: #EEEED2;
+
+}
+
+.green-square{
+
+  width: 100%;
+  height: 100%;
+  background-color: #6bae50;
+
+}
+
+
+img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain; /* Asegura que no se deforme la imagen con el cambio de dimensiones */
+}
+
+.FichasBlancas{
+  border: 3px rgb(255, 255, 255) solid;
+}
+
+.FichasNegras{
+  border: 3px rgb(0, 0, 0) solid;
+}
+
+main {
+  text-align: center;
+}
+
+main header{
+
+  font-family: inherit;
+  color:aliceblue;
+  font-size: 50px;
+
+  margin-bottom: .5em;
+}
+
+body {
+  background-color: #312e2b;
+
+  display: flex;  
+
+  justify-content: center;
+  align-items: center;
+}
+
+* {
+  margin : 0;
+  padding: 0;
+  box-sizing: border-box;
+}
