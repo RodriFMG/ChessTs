@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import './App.css'
+import { useState, Fragment } from 'react'
+import './Styles/App.css'
 import { TableroChess } from './Components/Tablero'
 import { BuildFichasRow } from './Logic/BuildTablero'
 import { PeonMove } from './Logic/FichasMove/PeonMove'
-import { TableroMove } from './Logic/TableroMove'
 import { AlfilMove } from './Logic/FichasMove/AlfilMove'
 import { TorreMove } from './Logic/FichasMove/TorreMove'
 import { DamaMove } from './Logic/FichasMove/DamaMove'
 import { CaballoMove } from './Logic/FichasMove/CaballoMove'
 import { ReyMove } from './Logic/FichasMove/ReyMove'
-import { isJaque } from './Logic/Jaque/Jaque'
 import { ReyPositionTypes } from './Constantes/ReyInterface'
+import { JugadorTablero } from './Components/Jugador'
 
 function App() {
   
@@ -157,16 +156,30 @@ function App() {
 
   }
 
+  const imgURL1 = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT1CHU89JJjZAqF7jfzJTCQAjcoQ81bg03VDWnHN02T5W8AalRL0Qp_Dm3GDJ_hL-XQs8oir2Wn_d5L2EhvhQTMfE_3JbHioUOrQsI6Lg"
+  const imgURL2 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv6usYKYNIjA4nerdBOnOk0L49oKa5R_cseDG5Lm4on0BOgKesvi0u_5nHz7RjJCiU5hs&usqp=CAU"
+
   return (
-    <main>
-      <header> Chess2 </header>
+    <Fragment>
+      <main className = "Tablero">
 
-      <section className = "tablero">
-        <TableroChess board = {board} updateBoard={updateBoard}/>
-      </section>
+        <JugadorTablero ImageUser={imgURL1} NameUser='Juan' Points={650} Pais = "🇵🇪"/>
 
-      
-    </main>
+        <section className = "Game">
+              <TableroChess board = {board} updateBoard={updateBoard}/>
+        </section>
+
+        <JugadorTablero ImageUser={imgURL2} NameUser='Rodrigo' Points={500} Pais = "🇵🇪"/>
+
+      </main>
+
+      <div className='Turn'>
+        <div className={`TurnBlack ${WhoIsTurn === "N" ? "" : "NotIsTurnBlack"}`}></div>
+        <div className={`TurnWhite ${WhoIsTurn === "B" ? "" : "NotIsTurnWhite"}`}></div>
+      </div>
+    </Fragment>
+
+
   )
 }
 

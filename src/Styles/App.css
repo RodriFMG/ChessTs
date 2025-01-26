@@ -1,0 +1,130 @@
+
+.Game {
+
+  border: 1px bisque solid;
+  border-radius: 2%;
+  min-width: 35vw;
+  min-height: 35vw;
+
+  display : grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+
+  place-items: center;
+
+}
+
+.white-square{
+
+  width: 100%;
+  height: 100%;
+  background-color: #EEEED2;
+
+}
+
+.green-square{
+
+  width: 100%;
+  height: 100%;
+  background-color: #6bae50;
+
+}
+
+
+img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain; /* Asegura que no se deforme la imagen con el cambio de dimensiones */
+}
+
+.FichasBlancas{
+  border: 3px rgb(255, 255, 255) solid;
+}
+
+.FichasNegras{
+  border: 3px rgb(0, 0, 0) solid;
+}
+
+
+/* Estilos Generales. */
+
+#root{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr .5fr 1fr;
+}
+
+.Tablero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap : 8px;
+
+  grid-column: 2/3;
+  justify-self: end;
+}
+
+* {
+  margin : 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #2a2a2a;
+}
+
+.Turn{
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  height: 35%;
+  width: 70%;
+  background-color: rgb(69, 67, 67);
+  border: 2px solid #EEEED2;
+
+  justify-self: center;
+  align-self: center;
+  grid-column: 3/4;
+
+}
+
+.TurnWhite{
+  display: block;
+  background-color: aliceblue;
+  grid-row: 2/3;
+
+  width: 75%;
+  height: 85%;
+  justify-self: center;
+  align-self: start;
+
+  border-bottom-left-radius: 15%;
+  border-bottom-right-radius: 15%;
+
+  box-shadow: 1px 1px 25px aliceblue;
+}
+
+.TurnBlack{
+  display: block;
+  background-color: rgb(31, 31, 31);
+  grid-row: 1/2;
+
+  width: 75%;
+  height: 85%;
+  justify-self: center;
+  align-self: end;
+  box-shadow: 10px;
+  border-top-left-radius: 15%;
+  border-top-right-radius: 15%;
+
+  box-shadow: 1px 1px 25px black;
+}
+
+.TurnWhite.NotIsTurnWhite{
+  opacity: .1
+}
+
+.TurnBlack.NotIsTurnBlack{
+  opacity: .1
+}
