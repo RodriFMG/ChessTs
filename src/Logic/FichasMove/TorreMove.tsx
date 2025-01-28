@@ -17,6 +17,8 @@ function MovimientoRecto(BoardUpdate: number[][][], PrevMove : [number, number],
         if(CanMoveRecto(BoardUpdate, RowToMove, ColumnToMove, i)) return false; 
     
 
+    // Siento que acá falta ver más a detalle, y que recien se podría saber si es true o false si es que evita el JAQUE.
+    //en ese preciso momento. Mas que todo para ver si suelta TRUE si es que hace un movimiento en JAQUE.
     if(ForMoveOrJaque) {
 
         const BoardCopy = structuredClone(BoardUpdate);

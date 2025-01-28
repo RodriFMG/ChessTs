@@ -1,7 +1,7 @@
 import { ItsJaqueMoment } from '../Jaque/ItsJaqueMoment';
 import { TableroMove } from '../TableroMove'
 
-const IsCorrectMovePeonRecto = (PrevMove : [number, number], ToMove : [number, number], color : string, Step : number = 1) => {
+export const IsCorrectMovePeonRecto = (PrevMove : [number, number], ToMove : [number, number], color : string, Step : number = 1) => {
 
     if(PrevMove[1] !== ToMove[1]) return false;
 
@@ -9,7 +9,7 @@ const IsCorrectMovePeonRecto = (PrevMove : [number, number], ToMove : [number, n
 
 }
 
-const IsCorrectMovePeonDiagonal = (PrevMove : [number, number], ToMove : [number, number], color : string) => {
+export const IsCorrectMovePeonDiagonal = (PrevMove : [number, number], ToMove : [number, number], color : string) => {
 
     // No hace falta una verificación si son blancas, ya que se ha colocado que si se da 2 veces una blanca
     // pues el movimiento sea de la otra.
@@ -21,6 +21,7 @@ const IsCorrectMovePeonDiagonal = (PrevMove : [number, number], ToMove : [number
 function IsCorrectMove(BoardUpdate : number[][][], PrevMove: [number, number], ToMove: [number, number],
     ForMoveOrJaque : boolean = true, ReyPosition : ReyPositionTypes, ActuallyJaque, SetActuallyJaque : void | null ){
 
+        
     if(ForMoveOrJaque) {
         
         const BoardCopy = structuredClone(BoardUpdate);

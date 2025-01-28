@@ -32,7 +32,8 @@ function UpdatingJaqueOrPossibleMove(colorEnemy : string, CheckDefendKing : bool
 }
 
 // IMPORTANTE:
-//isJaque hace 2 cosas, si CheckDefendKing es true, pues se usará para ver si es que se puede mover a cierta posición.
+//isJaque hace 2 cosas, si CheckDefendKing es true, pues se usará para ver si es que se puede mover a cierta posición 
+// ( USADO PRINCIPALMENTE PARA VER SI SE PUEDE EVITAR UN JAQUE EN isPossibleDefendKing).
 // Si CheckDefendKing es false, se usará para actualizar el estado del JAQUE, si el movimiento EVITA UN JAQUE, pues
 // actualiza el estado UpdateActuallyJaque a que YA NO HAY JAQUE, si es que el movimiento sigue habiendo JAQUE, pues
 // seguira estando el estado del JAQUE.
@@ -40,6 +41,7 @@ function UpdatingJaqueOrPossibleMove(colorEnemy : string, CheckDefendKing : bool
 // Le cambiare el nombre despues. Esta función es para ver si una ficha puede atacar a otra en otra posición.
 export function isJaque(BoardUpdate : number[][][], color : string, ReyPositionColorOrOther : [number, number], ActuallyJaque
     , SetActuallyJaque : void | null, CheckDefendKing : boolean = false, UsedTheKing : boolean = true){
+
 
         // Si retorna True, indica que si hay Jaque
         // Si retorna False, no hay Jaque.

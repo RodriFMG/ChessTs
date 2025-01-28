@@ -1,7 +1,7 @@
 import { useState, Fragment } from 'react'
 import './Styles/App.css'
 import { TableroChess } from './Components/Tablero'
-import { BuildFichasRow } from './Logic/BuildTablero'
+import { BuildFichasRow, OtherRows } from './Logic/BuildTablero'
 import { PeonMove } from './Logic/FichasMove/PeonMove'
 import { AlfilMove } from './Logic/FichasMove/AlfilMove'
 import { TorreMove } from './Logic/FichasMove/TorreMove'
@@ -10,6 +10,8 @@ import { CaballoMove } from './Logic/FichasMove/CaballoMove'
 import { ReyMove } from './Logic/FichasMove/ReyMove'
 import { ReyPositionTypes } from './Constantes/ReyInterface'
 import { JugadorTablero } from './Components/Jugador'
+import { ShowMoves } from './ShowMoves/ShowMove'
+import { ClearShowMoves } from './ShowMoves/ClearShowMoves'
 
 function App() {
   
@@ -27,12 +29,12 @@ function App() {
    // Estado del Tablero
   const [board, setBoard] = useState<number[][][]>
   (() => {
-    const Tablero = Array.from({length : 8}, () => Array(8).fill([0, 'T']))
+    const Tablero = Array.from({length : 8}, () => Array(8).fill([0, 'T', 'N']))
 
      //Aún falta LocalStorage, esto es solamente la inicialización
 
      const TableroFichasInicializadas : number[][][]
-     = Tablero.map((rowBoard, index) => [0,1,6,7].includes(index) ? BuildFichasRow(rowBoard, index) : rowBoard)
+     = Tablero.map((rowBoard, index) => [0, 1, 6, 7].includes(index) ? BuildFichasRow(rowBoard, index) : OtherRows(rowBoard))
 
      console.log(TableroFichasInicializadas)
 
@@ -73,9 +75,13 @@ function App() {
     if (NumClickUpdate === 1) {
 
       if(BoardUpdate[fila][columna][0] === 0 || BoardUpdate[fila][columna][1] !== IsTurn) setNumClicked(0)
-
+      else {
+          const color : string = BoardUpdate[fila][columna][1];
+          ShowMoves(BoardUpdate, [fila, columna], ReyPosition[color], ActuallyJaque[color]);
+          setDimentionsFicha(() => [fila, columna]);
+      }
       // Cuando el NumClick sea 1, debo poner estilos para mostrar los posibles movimientos.
-      setDimentionsFicha(() => [fila, columna])
+  
 
     }
 
@@ -90,7 +96,10 @@ function App() {
   
         // Significa que se esta moviendo a una misma ficha o una ficha del mismo color.
         if(BoardUpdate[PrevMove[0]][PrevMove[1]][1] === BoardUpdate[ToMove[0]][ToMove[1]][1]) {
-          setDimentionsFicha(ToMove)
+          setDimentionsFicha(ToMove);
+
+          const color : string = BoardUpdate[fila][columna][1];
+          ShowMoves(BoardUpdate, [fila, columna], ReyPosition[color], ActuallyJaque[color]);
           setNumClicked(1);
           return;
         }
@@ -123,11 +132,8 @@ function App() {
             ItsCorrectMove = ReyMove(BoardUpdate, Dimentions, true
           ,ReyPosition, SetReyPosition, ActuallyJaque, SetActuallyJaque);
 
-  
-        // Esto no es necesario, ya que en cada movimiento valido aplico el JAQUE.
-        // const ColorEnemigo : string = color === 'B' ? 'N' : 'B';
-        // isJaque(BoardUpdate, color, ReyPosition[ColorEnemigo], ActuallyJaque, SetActuallyJaque);
-        
+        //
+
         setNumClicked(0);
 
         if(!ItsCorrectMove) console.log("Es un movimiento incorrecto.")
@@ -135,8 +141,14 @@ function App() {
         // Los movimientos de las fichas retornan true o false.
         // true: se puede mover la ficha correctamente.
         // false: no se puede mover la ficha a esa cuadricula o si esta en jaque, esa ficha no evita el jaque enemigo.
+
+        // Tener en cuenta que si se realiza un movimiento incorrecto, el ItsCorrectMove será siempre false, y 
+        // nunca actualizará el turno.
         if(ItsCorrectMove) SetWhoIsTurn(IsTurn === 'B' ? 'N' : 'B');
   
+        // Esto controla la limpia de la pantalla cuando se da un movimiento CORRECTO como INCORRECTO, ya que
+        // eso se buscará reflejar.
+        ClearShowMoves(BoardUpdate);
       }
     }
     

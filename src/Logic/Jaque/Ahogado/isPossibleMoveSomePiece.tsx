@@ -13,6 +13,7 @@ export function isPossibleMoveSomePiece(BoardUpdate : number[][][], Color : stri
                 const Dimention : [number, number] = [fila, columna];
                 let factor = 1;
 
+                // CHECAR ESTO... (EL FACTOR)
                 if(BoardUpdate[fila][columna][0] === 1) factor = (Color === "B") ? 1 : -1;
 
                 // Si alguna ficha se puede mover exitosamente, true.

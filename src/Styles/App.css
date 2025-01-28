@@ -16,6 +16,8 @@
 
 .white-square{
 
+  position: relative;
+  display: grid;
   width: 100%;
   height: 100%;
   background-color: #EEEED2;
@@ -24,6 +26,8 @@
 
 .green-square{
 
+  position: relative;
+  display: grid;
   width: 100%;
   height: 100%;
   background-color: #6bae50;
@@ -34,6 +38,10 @@
 img {
   width: 50px;
   height: 50px;
+  
+  justify-self: center;
+  align-self: center;
+
   object-fit: contain; /* Asegura que no se deforme la imagen con el cambio de dimensiones */
 }
 
@@ -127,4 +135,66 @@ body {
 
 .TurnBlack.NotIsTurnBlack{
   opacity: .1
+}
+
+/* Para mostar los movimientos*/
+
+.Move{
+  width: 45%;
+  height: 45%;
+  background-color: black;
+  opacity: .2;
+  border-radius: 50%;
+
+  justify-self: center;
+  align-self: center;
+
+}
+
+.Capture{
+
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background-color: black;
+  opacity: .3;
+  border-radius: 50%;
+  
+  transform: translate(-50%, -50%);
+
+  top: 50%; 
+  left: 50%;
+
+  z-index: 1;
+
+}
+
+.Capture::after{
+  position: absolute;
+  content: "";
+
+  left: 50%; 
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 80%;
+  height: 80%;
+  z-index: 2;
+
+  border-radius: 50%;
+  background-color: white;
+
+
+}
+
+@keyframes ReyAttack {
+
+  0%{
+    background-color: ;
+  }
+  
+}
+
+.Attack{
+
 }
