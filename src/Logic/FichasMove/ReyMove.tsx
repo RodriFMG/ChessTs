@@ -39,9 +39,14 @@ function MoveIsCorrectKing(BoardUpdate : number[][][], PrevMove : [number, numbe
     const BoardCopy = structuredClone(BoardUpdate)
 
     TableroMove(BoardCopy, PrevMove, ToMove);
+
+    // Falta mejorar algunas reglas de enroque, como que si justo la recta en la que se esta dando el enroque
+    // es atacada por algunas fichas enegmias, no se puede realizar enroque.
     if(isEnroque) TableroMove(BoardCopy, TorrePrev, TorreTo);
 
-    const Jaque = isJaque(BoardCopy, ColorEnemigo, UpdateReyPosition[Color], ActuallyJaque, SetActuallyJaque, true);
+    // Es True el UsedTheKing, aunque con el rey no se pueda dar JAQUE, se puede ver si con esa posición
+    // no cae en JAQUE del rey ENEMIGO.
+    const Jaque = isJaque(BoardCopy, ColorEnemigo, UpdateReyPosition[Color], null, null, true, true);
 
     // Significa que no puedo realizar el movimiento porque sino ocasionaría JAQUE.
     if(Jaque) return false;
@@ -52,7 +57,7 @@ function MoveIsCorrectKing(BoardUpdate : number[][][], PrevMove : [number, numbe
 
     if(isEnroque){ 
 
-        // El ENROQUE puede dar JAQUE no con el REY, pero si con la torre.
+        // El ENROQUE puede dar JAQUE no con el REY, pero si con la torre u otra ficha..
         const ItsFichaJaque = isJaque(BoardUpdate, Color, UpdateReyPosition[ColorEnemigo], ActuallyJaque, SetActuallyJaque); 
 
         // Falta lógica de ahogado.

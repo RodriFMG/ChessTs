@@ -5,7 +5,7 @@ import { IsPossibleMoveKing } from "./IsPossibleMoveKing";
 export function isMate(BoardUpdate : number[][][], PiezasAttacks : [number, number][], 
     ReyPositionColor : [number, number]){
 
-    console.log("Se puede defender al Rey: ", IsPossibleDefendKing(BoardUpdate, PiezasAttacks, ReyPositionColor))
+    //console.log("Se puede defender al Rey: ", IsPossibleDefendKing(BoardUpdate, PiezasAttacks, ReyPositionColor))
 
     // La lógica está fallando, AMBAS.
 

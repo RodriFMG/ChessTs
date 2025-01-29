@@ -24,8 +24,6 @@ export function WhoPiecesAttack(BoardUpdate : number[][][], color : string,
         }
     }
 
-    if(PiecesAttackKing.length === 0) console.log("WTF, debería haber mínimo 1.")
-
     return PiecesAttackKing;
 
 }

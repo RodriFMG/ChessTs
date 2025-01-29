@@ -19,8 +19,10 @@ interface SquearePros {
 
 export function Square({Dimentions, updateBoard, keyI, value} : SquearePros){
 
+    const SquareColor = styleSqueare(Dimentions[0], Dimentions[1]);
+
     const HandleSquare = () => {
-        updateBoard(Dimentions[0], Dimentions[1])
+        updateBoard(Dimentions[0], Dimentions[1]);
     }
 
     let ShowMoves : string = ""
@@ -38,7 +40,7 @@ export function Square({Dimentions, updateBoard, keyI, value} : SquearePros){
     }
 
     return (
-        <div className={`${styleSqueare(Dimentions[0], Dimentions[1])}`} style={{cursor : `${value[0] !== 0 ? 'pointer' : 'default'}`}}
+        <div className={`${SquareColor}`} style={{cursor : `${value[0] !== 0 ? 'pointer' : 'default'}`}}
          key = {++keyI} onClick={HandleSquare}> 
             {
                 value[0] !== 0 && 

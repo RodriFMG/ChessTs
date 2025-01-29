@@ -12,13 +12,16 @@ export function ShowReyMove(BoardUpdate: number[][][], filaPrev : number, column
         const ColumnaToMove = columnaPrev + ReyMove[1];
 
         // Para saber si está permitido, tengo que ver si hay JAQUE al asignar un M o C, en ese movimiento. Con una función
-        // ya creada, puede ser con isJaque.
+        // ya creada, puede ser con isJaque. falta enroque!!!
         if(FilaToMove <=7 && FilaToMove>=0 && ColumnaToMove <= 7 && ColumnaToMove >= 0){
 
-            // Algo así pero que funcione xd, estudair nuevamente isJaque
+            // Acá si o si debe estar dentro el isJaque, las demás puede que no porque
+            // si se mueve minimamente y hay JAQUE es porque la ficha está clavada...
             const BoardCopy = structuredClone(BoardUpdate);
             TableroMove(BoardCopy, [filaPrev, columnaPrev], [FilaToMove, ColumnaToMove])
-            if(isJaque(BoardCopy, ColorEnemy, [FilaToMove, ColumnaToMove], null, null, true, false)) return;
+
+            // Puede que el ultimo booleano sea falso, chekar.
+            if(isJaque(BoardCopy, ColorEnemy, [FilaToMove, ColumnaToMove], null, null, true, true)) return;
 
             const Index = [1, 4, 6].includes(BoardUpdate[FilaToMove][ColumnaToMove][0]) ? 3 : 2;
             if(BoardUpdate[FilaToMove][ColumnaToMove][1] === ColorEnemy)

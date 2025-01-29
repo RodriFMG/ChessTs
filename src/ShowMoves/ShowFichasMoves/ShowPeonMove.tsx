@@ -1,8 +1,7 @@
 import { SomePeonMove } from "../../Constantes/Constants";
-import { PeonMove } from "../../Logic/FichasMove/PeonMove";
 import { isJaque } from "../../Logic/Jaque/Jaque";
-import { WhoPiecesAttack } from "../../Logic/Jaque/WhoPiecesAttack";
 import { TableroMove } from "../../Logic/TableroMove";
+import { ShowMoveIfActuallyJaque } from "../ShowMoveActuallyJaque";
 
 export function ShowPeonMove(BoardUpdate: number[][][], filaPrev : number, columnaPrev : number, 
     ReyPositionColor : [number, number], IsActuallyJaqueColor : boolean){
@@ -10,21 +9,8 @@ export function ShowPeonMove(BoardUpdate: number[][][], filaPrev : number, colum
     const Color : string = BoardUpdate[filaPrev][columnaPrev][1];
     const ColorEnemy : string = (Color === "B") ? "N" : "B";
 
-    if(IsActuallyJaqueColor){
-                    
-        const PiecesAttack = WhoPiecesAttack(BoardUpdate, ColorEnemy, ReyPositionColor);
-
-        // mirar ShowCaballoMove
-        if(PiecesAttack.length > 1) return;
-
-        const [filaAttack, columnaAttack] = PiecesAttack[0];
-        const Index = [1, 4, 6].includes(BoardUpdate[filaAttack][columnaAttack][0]) ? 3 : 2;
-
-        if(PeonMove(BoardUpdate, [[filaPrev, columnaPrev], [filaAttack, columnaAttack]], false))
-            BoardUpdate[filaAttack][columnaAttack][Index] = "C";
-
+    if(ShowMoveIfActuallyJaque(BoardUpdate, filaPrev, columnaPrev, ReyPositionColor, IsActuallyJaqueColor, Color, ColorEnemy)) 
         return;
-    }
 
     const factor = (Color === "B") ? 1 : -1;
 
@@ -43,7 +29,7 @@ export function ShowPeonMove(BoardUpdate: number[][][], filaPrev : number, colum
                 TableroMove(BoardCopy, [filaPrev, columnaPrev], [FilaToMove, ColumnaToMove]);
 
                 // En caso al realizar el movimiento de esa ficha ocasione JAQUE del bando contrario, no hay nada que hacer.
-                if(isJaque(BoardUpdate, ColorEnemy, ReyPositionColor, null, null, true, false)) return;
+                if(isJaque(BoardCopy, ColorEnemy, ReyPositionColor, null, null, true, false)) return;
 
                 // Si llega acá, significa que el movimiento no ocasiona JAQUE ni está actualmente en JAQUE el rey
                 // así que serían movimientos normales.
@@ -63,6 +49,8 @@ export function ShowPeonMove(BoardUpdate: number[][][], filaPrev : number, colum
 
 
                 }
+
+                // En caso pueda capturar por diagonal.
                 else if(columnaPrev !== ColumnaToMove && BoardUpdate[FilaToMove][ColumnaToMove][1] === ColorEnemy)
                     BoardUpdate[FilaToMove][ColumnaToMove][Index] = "C";
 

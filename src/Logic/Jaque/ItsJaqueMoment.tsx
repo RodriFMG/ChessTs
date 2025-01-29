@@ -17,13 +17,26 @@ export function ItsJaqueMoment(BoardUpdate : number[][][], BoardCopy: number[][]
         
        
         // Jaque para identificar que si muevo esa ficha, ocasiona Jaque (o sigue en Jaque )
-        // el bando contrario. (movimiento inválido)
-        const Jaque = isJaque(BoardCopy, ColorEnemy, ReyPosition[Color], ActuallyJaque, SetActuallyJaque);
+        // el bando contrario. (movimiento inválido).
+        
+        // Esto no Setea el ActuallyJaque de ese color, ya que en los 2 posibles escenarios que hay
+        // Movimiento inválido porque el rey está en JAQUE y no se evita el JAQUE con ese movimiento, aca no se busca
+        // actualizar el estado del Jaque, porque ya se sabe que está en JAQUE.
+
+        // El otro escenario sería que al mover una ficha ocasiona JAQUE (ficha clavada), tampoco se buscaría actualizar
+        // el estado de ActuallyJaque para ese color, solo decir que no se puede mover y ya (ya que si
+        // no se guardaría JAQUE para ese color pero sin realizar el movimiento)
+        const Jaque = isJaque(BoardCopy, ColorEnemy, ReyPosition[Color], null, null, true, false);
+        let CopyActuallyJaque = {...ActuallyJaque}
 
         // En caso sea movimiento INVÁLIDO POR JAQUE, pues no actualizo el BoardUpdate.
-        if(Jaque[Color]) {
-            console.log("No se puede mover por JAQUE");
+        if(Jaque) {
+            console.log("No se puede mover por JAQUE", CopyActuallyJaque);     
             return true;
+        }
+        else{
+            // Si la ficha estaba en JAQUE y el movmiento EVITA Ese JAQUE, pues actualizamos a FALSE.
+            if(ActuallyJaque[Color]) CopyActuallyJaque[Color] = false;
         }
 
         // Con esta manera, me aseguro que los cambios se reflejen, hacerlo de otra manera, no es seguro (no prevalecen los
@@ -34,8 +47,9 @@ export function ItsJaqueMoment(BoardUpdate : number[][][], BoardCopy: number[][]
         // Si algo falla, maybe sea porque tenga que poner acá BoardCopy en vez de BoardUpdate, porque no se reflejan
         // los cambios a tiempo, aunque sería raro que pase.
 
-        // Tengo que seguir OTRO ENFOQUE PARA EL JAQUE DOBLE O MÁS PIPIIPPI.
-        const ItsFichaJaque = isJaque(BoardUpdate, Color, ReyPosition[ColorEnemy], Jaque, SetActuallyJaque)
+        // Esto se encarga de SETEAR la actaulización si el movimiento evita el JAQUE y/o ese mismo movimiento
+        // causa JAQUE al rival.
+        const ItsFichaJaque = isJaque(BoardUpdate, Color, ReyPosition[ColorEnemy], CopyActuallyJaque, SetActuallyJaque)
 
         // Si el Bando enemigo está en Jaque, pues averiguamos si es MATE.
         if(ItsFichaJaque[ColorEnemy]){
@@ -43,7 +57,7 @@ export function ItsJaqueMoment(BoardUpdate : number[][][], BoardCopy: number[][]
             const PiecesAttackKing = WhoPiecesAttack(BoardUpdate, Color, ReyPosition[ColorEnemy])
             console.log("JAQUEE!")
 
-            console.log("Piezan que JAQUEAN:", PiecesAttackKing);
+            //console.log("Piezan que JAQUEAN:", PiecesAttackKing);
 
              // Empezo a fallar esta wbda, ver y entender el isJaque.
             if(isMate(BoardUpdate, PiecesAttackKing, ReyPosition[ColorEnemy]))
@@ -58,6 +72,7 @@ export function ItsJaqueMoment(BoardUpdate : number[][][], BoardCopy: number[][]
             
         }
         
+        //console.log(CopyActuallyJaque)
         return false;
 
 
