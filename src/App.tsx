@@ -12,6 +12,7 @@ import { ReyPositionTypes } from './Constantes/ReyInterface'
 import { JugadorTablero } from './Components/Jugador'
 import { ShowMoves } from './ShowMoves/ShowMove'
 import { ClearShowMoves } from './ShowMoves/ClearShowMoves'
+import { PieceSelection } from './ShowMoves/PieceSelection'
 
 function App() {
   
@@ -62,6 +63,8 @@ function App() {
   // Estado para cambiar de turnos entre blancas y negras.
   const [WhoIsTurn, SetWhoIsTurn] = useState<string>('B');
 
+  const [PiecePrevSelected, SetPiecePrevSelected] = useState<[number, number]> ([0,0])
+
   //Array.from({length : 8}, () => Array(8).fill(0))
 
   const MovimientoFicha = (BoardUpdate : number[][][], fila : number, columna : number) => {
@@ -73,6 +76,9 @@ function App() {
     console.log(`Es turno de: ${IsTurn === 'B' ? 'Blancas' : 'Negras'}`)
 
     if (NumClickUpdate === 1) {
+
+      if(BoardUpdate[fila][columna][0] !== 0) PieceSelection(fila, columna, PiecePrevSelected, SetPiecePrevSelected);
+      
 
       if(BoardUpdate[fila][columna][0] === 0 || BoardUpdate[fila][columna][1] !== IsTurn) setNumClicked(0)
       else {
@@ -93,6 +99,8 @@ function App() {
         const ToMove : [number, number] = [fila, columna];
   
         setDimentionsFicha(ToMove)
+
+        if(BoardUpdate[fila][columna][0] !== 0) PieceSelection(fila, columna, PiecePrevSelected, SetPiecePrevSelected);
   
         // Significa que se esta moviendo a una misma ficha o una ficha del mismo color.
         if(BoardUpdate[PrevMove[0]][PrevMove[1]][1] === BoardUpdate[ToMove[0]][ToMove[1]][1]) {
@@ -101,6 +109,7 @@ function App() {
           const color : string = BoardUpdate[fila][columna][1];
           ShowMoves(BoardUpdate, [fila, columna], ReyPosition[color], ActuallyJaque[color]);
           setNumClicked(1);
+
           return;
         }
   
@@ -144,7 +153,19 @@ function App() {
 
         // Tener en cuenta que si se realiza un movimiento incorrecto, el ItsCorrectMove será siempre false, y 
         // nunca actualizará el turno.
-        if(ItsCorrectMove) SetWhoIsTurn(IsTurn === 'B' ? 'N' : 'B');
+        if(ItsCorrectMove) {
+          SetWhoIsTurn(IsTurn === 'B' ? 'N' : 'B');
+
+          // Para que desaparezca el estilo una vez realizado el movimiento correcto.
+          const KeyActually = 8 * (PiecePrevSelected[0]+1) + PiecePrevSelected[1] + 1;
+          const SquareActually = document.getElementById(KeyActually.toString())
+          SquareActually?.classList.remove("IsActive")
+
+          const KeyToMove = 8 * (fila + 1) + columna + 1;
+          const SquareToMove = document.getElementById(KeyToMove.toString())
+          SquareToMove?.classList.remove("IsActive")
+
+        }
   
         // Esto controla la limpia de la pantalla cuando se da un movimiento CORRECTO como INCORRECTO, ya que
         // eso se buscará reflejar.

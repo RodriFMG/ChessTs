@@ -17,6 +17,8 @@ interface SquearePros {
     value : [number, string, boolean, string | null];
 }
 
+
+
 export function Square({Dimentions, updateBoard, keyI, value} : SquearePros){
 
     const SquareColor = styleSqueare(Dimentions[0], Dimentions[1]);
@@ -41,7 +43,7 @@ export function Square({Dimentions, updateBoard, keyI, value} : SquearePros){
 
     return (
         <div className={`${SquareColor}`} style={{cursor : `${value[0] !== 0 ? 'pointer' : 'default'}`}}
-         key = {++keyI} onClick={HandleSquare}> 
+         key = {keyI} onClick={HandleSquare} id = {keyI.toString()}> 
             {
                 value[0] !== 0 && 
                 <img src={FICHAS_TABLERO[value[0]]} className = { ColorImageFichas( value[1]) }></img>
@@ -50,6 +52,7 @@ export function Square({Dimentions, updateBoard, keyI, value} : SquearePros){
                 ShowMoves !== "" &&
                 <div className={ShowMoves}></div>
             }
+
                             
         </div>
     )
