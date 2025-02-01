@@ -1,50 +1,9 @@
-# React + TypeScript + Vite
+Proyecto for learning de Frontend, sé que el código está algo desordenado, ojalá algún día lo arregle xd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+En la lógica del chess, lo único que faltaría sería la promoción de peon (no es dificil como lo tengo planteado, lo dificil sería crear lo visual xd y el input)
+Por alguna razon aveces sale ahogado en las fichas vacias wtf
+Quitando lo último, se realiza correctamente (creo xd) la lógica del ajedrez, creo q en el enroque faltan cosas pero no son tan complicadas de implementar
 
-Currently, two official plugins are available:
+Solo sería arreglar o agregar lo mencionado y crear estados que rescaten el mate o ahogado, donde puse MATE o AHOGADO es donde se rescatarían xd.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+No lo podré terminar ahora, como comenté, es un proyecto para aprender y tampoco quiero que me consuma todo el tiempo. Si alguien ve esto, gracias por leer :)
