@@ -21,7 +21,6 @@ export const IsCorrectMovePeonDiagonal = (PrevMove : [number, number], ToMove : 
 function IsCorrectMove(BoardUpdate : number[][][], PrevMove: [number, number], ToMove: [number, number],
     ForMoveOrJaque : boolean = true, ReyPosition : ReyPositionTypes, ActuallyJaque, SetActuallyJaque : void | null ){
 
-        
     if(ForMoveOrJaque) {
         
         const BoardCopy = structuredClone(BoardUpdate);

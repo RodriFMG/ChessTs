@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useRef, useEffect } from 'react'
 import './Styles/App.css'
 import { TableroChess } from './Components/Tablero'
 import { BuildFichasRow, OtherRows } from './Logic/BuildTablero'
@@ -59,6 +59,33 @@ function App() {
     N : false,
     B : false
   })
+
+  // El useRef sirve básicamente para rescatar el valor automático del cambio de valor de un estado (usado principalmente)
+  // osea se sabe que si en un estado, se setea su valor, este no se podría usar libremente por la concurrencia 
+  // por tanto, si se usa useRef solucionamos este problema y podremos usar el valor del estado cambiado.
+
+  // sería la sintaxis del useRef  useRef(variable del estado), donde el data type donde se guarde será el mismo
+  // que el data type del dato puesto.
+  const IsJaqueMoment = useRef(ActuallyJaque);
+
+  // Recordar que se crea otra Ejeución paralela en el useEffect cuando CAMBIA EL VALOR DEL ESTADO (OSEA CUANDO
+  // SE SETEA UN ESTADO, SE ACTIVA ESTA FUNCIÓN)
+  useEffect(() => {
+
+    // Con useRef.current rescato el VALOR QUE VA A CONTENER esa variable con el valor despues del SETEO.
+
+    // esto funciona porque useEffect se activa cuando ocurre un cambio en el valor del estado por SETEO
+    // con useRef rescato INMEDIATAMENTE ESE VALOR, sin tener que esperar al paralelismo.
+    
+    // Una vez hecho esto, si ese valor del estado lo necesito para un futuro, pues con useEffect y useRef
+    // en useRef, la variable almacenará el valor actualizado del estado para usarlo libremente en el programa post SETEO.
+
+    // Para almacenar ese valor y usarlo, se usa SIEMPRE useRef.current, con eso ACEDO AL VALOR ACTUALIZADO DEL ESTADO.
+    IsJaqueMoment.current = ActuallyJaque;
+
+    // Recordar que la sintaxis del useEffect es useEffect(callback, [estado a cambiar]), donde si se cambia uno
+    // se activa el useEffect, y si se pone una lista vacia se activa siempre en cada renderización
+  }, [ActuallyJaque])
 
   // Estado para cambiar de turnos entre blancas y negras.
   const [WhoIsTurn, SetWhoIsTurn] = useState<string>('B');
@@ -144,8 +171,29 @@ function App() {
         //
 
         setNumClicked(0);
+        
+        // Acá se debe rescatar correctamente si HAY JAQUE ACTUALMENTE, una vez hec
+        if(!ItsCorrectMove && IsJaqueMoment.current[color]){
 
-        if(!ItsCorrectMove) console.log("Es un movimiento incorrecto.")
+          console.log("Entro...")
+
+          const KeyId = 8 * (ReyPosition[color][0] + 1) + ReyPosition[color][1] + 1;
+          const SquareKing = document.getElementById(KeyId.toString());
+
+          // Wtf se puede dropear un addEventListener desde su propio callback cuando ocurra el evento,
+          // esto es escencial para no sobrecargar de eventos a un mismo elemento.
+          const AnimationController = () => {
+            SquareKing?.classList.remove("jaque");
+            SquareKing?.removeEventListener("animationend", AnimationController);
+
+          }
+
+          // Agrego al rey actual la animación de movimiento inválido por JAQUE y cuando acabe la animación
+          // la remuevo, tanto el estilo como el evento.
+          SquareKing?.classList.add("jaque");
+          SquareKing?.addEventListener("animationend", AnimationController)
+
+        }
 
         // Los movimientos de las fichas retornan true o false.
         // true: se puede mover la ficha correctamente.
